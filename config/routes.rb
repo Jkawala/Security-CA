@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
-
-get 'tutorial/index'
-get 'document/index'
+#A secure way of getting the router 
+get '/tutorial' to: "tutorial#index"
+get '/document' to: "document#index"
   resources :posts
   resources :document
   devise_for :users
