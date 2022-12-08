@@ -1,0 +1,22 @@
+<p style="color: green"><%= notice %></p>
+
+<h1>Posts</h1>
+<!--adding a filtering logic in the view-->
+<hr />
+<%= form_tag posts_path, method: :get do %>
+  <%= text_field_tag name="post[query]", '', size:100 %>
+  <%= submit_tag 'Filter' %>
+<% end %>
+<hr />
+
+<!-- The user can see the database that was created-->
+<div id="posts">
+  <% @posts.each do |post| %>
+    <%= render post %>
+    <p>
+      <%= link_to "Show this post", post %>
+    </p>
+  <% end %>
+</div>
+
+<%= link_to "New post", new_post_path %>

