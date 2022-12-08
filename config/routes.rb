@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-
+#always have a specified route 
 get 'tutorial/index'
 get 'document/index'
   resources :posts
