@@ -3,6 +3,9 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 #Up to date gems and ruby 
 ruby "3.1.2"
 
+# token based authentication 
+gem "devise_token_auth"
+
 gem "devise"
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
 gem "rails", "~> 7.0.4"
